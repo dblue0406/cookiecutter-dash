@@ -1,11 +1,11 @@
 click==8.1.7
 dash==2.13.0
 dash-bootstrap-components==1.5.0
-gunicorn=21.2.0
+gunicorn==21.2.0
 Jinja2==2.11.3
 langchain==0.0.312
 openai==0.28.1
-huggingface_hub==0.18.0
+huggingface_hub==0.17.0
 transformers==4.34.0
 # datasets==2.14.5
 

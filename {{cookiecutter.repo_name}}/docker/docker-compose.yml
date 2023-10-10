@@ -1,0 +1,15 @@
+version: "3"
+services:
+  dev:
+    build:
+      context: ""
+    ports:
+      - "127.0.0.1::8888"
+    volumes:
+      - ../:/mnt
+    entrypoint: bash -c "gunicorn --bind 0.0.0.0:80 wsgi"
+    stdin_open: true
+    container_name: "{{cookiecutter.repo_name}}_${USER}"
+    tty: true
+    env_file:
+      - ../.env
