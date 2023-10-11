@@ -1,7 +1,7 @@
 .PHONY: help, ci-black, ci-flake8, ci-test, isort, black, docs, dev-start, dev-stop
 
 ## Ensure this is the same name as in docker-compose.yml file
-CONTAINER_NAME="{{cookiecutter.repo_name}}_${USER}"
+CONTAINER_NAME="{{cookiecutter.repo_name}}"
 
 PROJECT={{cookiecutter.repo_name}}
 
