@@ -6,12 +6,12 @@
 
 ## Running locally
 
-To run a development instance locally, create a virtualenv, install the 
-requirements from `requirements.txt` and launch `app.py` using the 
-Python executable from the virtualenv.
+To run a development instance locally, simply use the following command in the terminal under the project directory:
 
-## Deploying on ECS
+```ssh
+make start-env ENV=dev
+```
 
-Use `make image` to create a Docker image. Then, follow [these 
-instructions](https://www.chrisvoncsefalvay.com/2019/08/28/deploying-dash-on-amazon-ecs/) 
-to deploy the image on ECS.
+There are three options for the ENV variable: `prd`, `dev` and `lab`.  The `prd` instance will expose the app to port 80 while `dev` instance will expose it to port 8050. 
+The `lab` instance only spins up a jupyter lab for development purposes.
+
