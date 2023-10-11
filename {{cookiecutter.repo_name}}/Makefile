@@ -21,6 +21,10 @@ stop-env: ## Spin down active containers
 rebuild-env: .env ## Rebuild images for dev containers
 	docker-compose -f $(COMPOSE_FILE) --project-name $(PROJECT) up $(ENV) -d --build
 
+log-env:
+	docker logs $(CONTAINER_NAME)_$(ENV)
+
+###
 stop-all: ## Spin down active containers
 	docker-compose -f $(COMPOSE_FILE) --project-name $(PROJECT) down
 
