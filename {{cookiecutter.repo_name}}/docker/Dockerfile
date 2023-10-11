@@ -3,9 +3,9 @@ LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
 
 RUN apt-get update
 
-COPY requirements.txt /build/requirements.txt
+COPY /docker/requirements.txt /build/requirements.txt
 WORKDIR /build/
 RUN pip install -r /build/requirements.txt
 
-COPY .. /app
+COPY . /app
 WORKDIR /app

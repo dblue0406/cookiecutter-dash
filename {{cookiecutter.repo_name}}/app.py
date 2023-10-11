@@ -1,66 +1,30 @@
+from dash import Dash, html, dcc, callback, Output, Input
 import flask
-import dash
-import dash_bootstrap_components as dbc
-import dash_html_components as html
-import plotly.graph_objs as gobs
+import plotly.express as px
+import pandas as pd
 
-external_stylesheets = ['https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
+df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
-external_scripts = ['https://code.jquery.com/jquery-3.2.1.slim.min.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
-                    'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js']
+app = Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
 
-# Server definition
-
-server = flask.Flask(__name__)
-app = dash.Dash(__name__,
-                external_stylesheets=external_stylesheets,
-                external_scripts=external_scripts,
-                server=server)
-
-# HEADER
-# ======
-
-header = dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(dbc.NavLink("Page 1", href="#")),
-        dbc.DropdownMenu(
-            children=[
-                dbc.DropdownMenuItem("More pages", header=True),
-                dbc.DropdownMenuItem("Page 2", href="#"),
-                dbc.DropdownMenuItem("Page 3", href="#"),
-            ],
-            nav=True,
-            in_navbar=True,
-            label="More",
-        ),
-    ],
-    brand="{{cookiecutter.project_name}}",
-    brand_href="#",
-    color="primary",
-    dark=True
-)
-
-
-# COMPONENTS
-# ==========
-
-# Your components go here.
-
-
-# INTERACTION
-# ===========
-
-# Your interaction goes here.
-
-
-# APP LAYOUT
-# ==========
 
 app.layout = html.Div([
-    header
+    html.H1(children='Title of Dash App', style={'textAlign':'center'}),
+    dcc.Dropdown(options=[{'label': country, 'value': country} for country in df['country'].unique()], value='Canada', id='dropdown-selection'),
+    dcc.Graph(id='graph-content')
 ])
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
+@callback(
+    Output('graph-content', 'figure'),
+    Input('dropdown-selection', 'value')
+)
+def update_graph(value):
+    dff = df[df.country==value]
+    return px.line(dff, x='year', y='pop')
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8050, debug=True)

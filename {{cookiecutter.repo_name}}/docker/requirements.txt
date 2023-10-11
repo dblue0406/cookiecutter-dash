@@ -7,6 +7,9 @@ langchain==0.0.312
 openai==0.28.1
 huggingface_hub==0.17.0
 transformers==4.34.0
+MarkupSafe==1.1.1
+itsdangerous==2.0.1
+Werkzeug==0.15.6
 # datasets==2.14.5
 
 

@@ -7,7 +7,7 @@ services:
       - "127.0.0.1::8888"
     volumes:
       - ../:/mnt
-    entrypoint: bash -c "gunicorn --bind 0.0.0.0:80 wsgi"
+    entrypoint: bash -c "gunicorn --bind 0.0.0.0:8050 app:server"
     stdin_open: true
     container_name: "{{cookiecutter.repo_name}}_${USER}"
     tty: true
