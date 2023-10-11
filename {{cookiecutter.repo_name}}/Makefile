@@ -9,7 +9,20 @@ PROJ_DIR="/mnt/{{cookiecutter.repo_name}}"
 VERSION_FILE:=VERSION
 COMPOSE_FILE=docker/docker-compose.yml
 TAG:=$(shell cat ${VERSION_FILE})
+ENV=dev
 
-dev-start: .env ## Primary make command for devs, spins up containers
-	docker-compose -f $(COMPOSE_FILE) --project-name $(PROJECT) up -d --no-recreate
+start-env: .env ## Primary make command for devs, spins up containers
+	docker-compose -f $(COMPOSE_FILE) --project-name $(PROJECT) up $(ENV) -d --no-recreate
 
+stop-env: ## Spin down active containers
+	docker-compose -f $(COMPOSE_FILE) --project-name $(PROJECT) down $(ENV)
+
+# Useful when Dockerfile/requirements are updated)
+rebuild-env: .env ## Rebuild images for dev containers
+	docker-compose -f $(COMPOSE_FILE) --project-name $(PROJECT) up $(ENV) -d --build
+
+stop-all: ## Spin down active containers
+	docker-compose -f $(COMPOSE_FILE) --project-name $(PROJECT) down
+
+rebuild-all: .env ## Rebuild images for dev containers
+	docker-compose -f $(COMPOSE_FILE) --project-name $(PROJECT) up -d --build

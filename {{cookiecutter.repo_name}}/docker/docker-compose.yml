@@ -1,15 +1,46 @@
 version: "3"
 services:
-  dev:
+  prd:
     build:
-      context: ""
+      context: ..
+      dockerfile: docker/Dockerfile
     ports:
-      - "127.0.0.1::8888"
+      - "80:80"
     volumes:
       - ../:/mnt
-    entrypoint: bash -c "gunicorn --bind 0.0.0.0:8050 app:server"
+    entrypoint: bash -c "gunicorn --bind 0.0.0.0:80 index:server"
     stdin_open: true
-    container_name: "{{cookiecutter.repo_name}}_${USER}"
+    container_name: "{{cookiecutter.repo_name}}_prd"
+    tty: true
+    env_file:
+      - ../.env
+
+  dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8050:8050"
+    volumes:
+      - ../:/mnt
+    entrypoint: bash -c "gunicorn --bind 0.0.0.0:8050 index:server"
+    stdin_open: true
+    container_name: "{{cookiecutter.repo_name}}_dev"
+    tty: true
+    env_file:
+      - ../.env
+
+  lab:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - ../:/mnt
+    entrypoint: bash -c "cd /mnt && jupyter lab --NotebookApp.token='' --ip=0.0.0.0 --allow-root && /bin/bash"
+    stdin_open: true
+    container_name: "{{cookiecutter.repo_name}}_lab"
     tty: true
     env_file:
       - ../.env
